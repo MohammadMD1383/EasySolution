@@ -1,37 +1,45 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-	id("java")
-	id("org.jetbrains.kotlin.jvm") version "1.6.20"
-	id("org.jetbrains.intellij") version "1.5.2"
+	id("org.jetbrains.intellij") version "1.5.3"
+	kotlin("jvm") version "1.6.21"
+	java
 }
 
 group = "ir.mmd.intellijDev"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
 	mavenCentral()
 }
 
-// Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
-	version.set("2021.2")
-	type.set("IC") // Target IDE Platform
-	
-	plugins.set(listOf(/* Plugin Dependencies */))
+	version.set("2022.1")
+	type.set("IC")
 }
 
 tasks {
-	// Set the JVM compatibility versions
 	withType<JavaCompile> {
-		sourceCompatibility = "11"
-		targetCompatibility = "11"
+		sourceCompatibility = JavaVersion.VERSION_11.toString()
+		targetCompatibility = JavaVersion.VERSION_11.toString()
 	}
-	withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-		kotlinOptions.jvmTarget = "11"
+	
+	withType<KotlinCompile> {
+		kotlinOptions.jvmTarget = JavaVersion.VERSION_11.toString()
+	}
+	
+	runIde {
+		autoReloadPlugins.set(true)
+	}
+	
+	buildSearchableOptions {
+		enabled = false
 	}
 	
 	patchPluginXml {
-		sinceBuild.set("212")
-		untilBuild.set("222.*")
+		version.set(project.version.toString())
+		sinceBuild.set("202")
+		untilBuild.set("")
 	}
 	
 	signPlugin {
