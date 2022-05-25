@@ -7,12 +7,12 @@ import com.intellij.openapi.wm.ToolWindowAnchor
 import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.ui.content.ContentFactory
 import com.intellij.ui.jcef.JBCefBrowser
-import ir.mmd.intellijdev.easysolution.data.SEARCH_STACKOVERFLOW
 import ir.mmd.intellijdev.easysolution.util.urlEncoded
 
 class SearchInStackOverflow : AnAction() {
 	companion object {
 		private const val TOOL_WINDOW_ID = "StackOverflow"
+		const val SEARCH_STACKOVERFLOW = "https://stackoverflow.com/search?q="
 	}
 	
 	override fun actionPerformed(e: AnActionEvent) {

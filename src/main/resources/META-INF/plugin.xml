@@ -4,7 +4,11 @@
 	<vendor email="ezmmd83@gmail.com" url="https://github.com/MohammadMD1383/EasySolution">MMD</vendor>
 	
 	<description><![CDATA[
-		<h3>Easily search your problems and questions in <i>stack overflow</i> just inside your IDE!</h3>
+		<h3>Easily search your problems and questions in <i>stackoverflow.com</i> just inside your IDE!</h3>
+		<div>
+			select a text in your editor or output window and press <b>Alt+F</b> to search it in <i>stackoverflow.com</i>
+			(or also you can access it from context menu).
+		</div>
 		]]></description>
 	
 	<change-notes><![CDATA[
@@ -20,12 +24,16 @@
 	<actions>
 		<group compact="true">
 			<add-to-group group-id="EditorPopupMenu" anchor="first"/>
+			<add-to-group group-id="EditorPopupMenu.Run" anchor="first"/>
+			<add-to-group group-id="EditorPopupMenuDebug" anchor="first"/>
 			
 			<action
 				id="ir.mmd.intellijdev.easysolution.actions.SearchInStackOverflow"
 				class="ir.mmd.intellijdev.easysolution.actions.SearchInStackOverflow"
 				text="Search Selected Text in StackOverflow"
-				description="Searches the selected text in stackoverflow.com and shows it inside the ide"/>
+				description="Searches the selected text in stackoverflow.com and shows it inside the ide">
+				<keyboard-shortcut first-keystroke="alt f" keymap="$default"/>
+			</action>
 		</group>
 	</actions>
 </idea-plugin>
