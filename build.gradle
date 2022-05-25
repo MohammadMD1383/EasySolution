@@ -1,3 +1,15 @@
+import proguard.gradle.ProGuardTask
+
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	
+	dependencies {
+		classpath "com.guardsquare:proguard-gradle:7.2.1"
+	}
+}
+
 plugins {
 	id 'org.jetbrains.intellij' version '1.6.0'
 	id 'org.jetbrains.kotlin.jvm' version '1.6.21'
@@ -9,6 +21,10 @@ version = "1.0.0"
 
 repositories {
 	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.21'
 }
 
 intellij {
@@ -49,4 +65,25 @@ signPlugin {
 
 publishPlugin {
 	token.set(System.getenv("PUBLISH_TOKEN"))
+}
+
+task minify(type: ProGuardTask, dependsOn: buildPlugin) {
+	outputs.upToDateWhen { false }
+	
+	libraryjars '/usr/lib/jvm/java-17-openjdk-amd64/jmods/java.base.jmod'
+	libraryjars fileTree(include: ['**/*.jar'], dir: '/Files/jetbrains/idea/lib')
+	
+	optimizationpasses 5
+	
+	injars "build/distributions/${project.name}-${project.version}.zip"
+	outjars "build/minified/${project.name}-${project.version}.zip"
+	printmapping "build/minified/${project.name}-${project.version}.mapping"
+	
+	dontnote()
+	dontwarn 'kotlin.**'
+	
+	keepattributes 'RuntimeVisibleAnnotations'
+	
+	keep class: 'kotlin.reflect.**'
+	keep class: 'ir.mmd.intellijdev.easysolution.actions.SearchInStackOverflow'
 }
